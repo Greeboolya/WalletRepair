@@ -1,0 +1,25 @@
+# Node/Vite/Env
+node_modules
+dist
+.env
+
+# System/IDE
+.DS_Store
+.vscode
+.idea
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+dist-ssr
+*.local
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

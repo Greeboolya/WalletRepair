@@ -1,0 +1,46 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #fff;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Фон для всего сайта */
+.bg-animation {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  /* Сначала фото — потом градиент, чтобы фото было видно */
+  background:
+    url('/back1.jpg') center center / cover no-repeat,
+    linear-gradient(135deg, rgba(10,14,26,0.7) 0%, rgba(26,31,46,0.7) 50%, rgba(15,20,25,0.7) 100%);
+}
+
+/* Анимированные лучи на фоне */
+.bg-animation::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background:
+    radial-gradient(circle at 20% 80%, rgba(0, 136, 204, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(102, 126, 234, 0.1) 0%, transparent 50%);
+  animation: pulse 4s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+@keyframes pulse {
+  0% { opacity: 0.3; }
+  100% { opacity: 0.7; }
+}

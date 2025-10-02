@@ -36,118 +36,133 @@ function Page1_Hello() {
   }
 
   return (
-    <>
-      <div className="page1-hello">
-        <div className="header">
-          <div className="logo-container">
-            <svg width="50" height="50" fill="white" viewBox="0 0 24 24">
-              <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/>
-              <path d="M9 12l2 2 4-4" stroke="white" strokeWidth="2" fill="none"/>
-            </svg>
-          </div>
-          <h1 className="main-title">TON Wallet Analyzer &amp; Repair</h1>
-          <p className="subtitle">
-            A professional solution for automatic wallet scanning, threat detection, and remediation
-          </p>
+    <div className="page1-hello">
+      <div className="header">
+        <div className="logo-container">
+          <svg width="50" height="50" fill="white" viewBox="0 0 24 24">
+            <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/>
+            <path d="M9 12l2 2 4-4" stroke="white" strokeWidth="2" fill="none"/>
+          </svg>
         </div>
+        <h1 className="main-title">TON Wallet Analyzer &amp; Repair</h1>
+        <p className="subtitle">
+          A professional solution for automatic wallet scanning, threat detection, and remediation
+        </p>
+      </div>
 
-        <div className="features-rects closer-to-header">
-          <div className="feature-card rect">
-            <div className="feature-content">
-              <div className="feature-icon">
-                <svg width="30" height="30" fill="white" viewBox="0 0 24 24">
-                  <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
-              </div>
-              <div className="feature-text">
-                <h3 className="feature-title">Revoke Unnecessary Permissions</h3>
-                <p className="feature-description">
-                  Automatically detect and revoke excessive permissions granted to third-party apps and services
-                </p>
-              </div>
+      <div className="features-rects closer-to-header">
+        <div className="feature-card rect">
+          <div className="feature-content">
+            <div className="feature-icon">
+              <svg width="30" height="30" fill="white" viewBox="0 0 24 24">
+                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
             </div>
-          </div>
-          <div className="feature-card rect">
-            <div className="feature-content">
-              <div className="feature-icon">
-                <svg width="30" height="30" fill="white" viewBox="0 0 24 24">
-                  <path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
-                </svg>
-              </div>
-              <div className="feature-text">
-                <h3 className="feature-title">Block Suspicious Smart Contracts</h3>
-                <p className="feature-description">
-                  Intelligent analysis and real-time blocking of potentially dangerous smart contracts
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="feature-card rect">
-            <div className="feature-content">
-              <div className="feature-icon">
-                <svg width="30" height="30" fill="white" viewBox="0 0 24 24">
-                  <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                </svg>
-              </div>
-              <div className="feature-text">
-                <h3 className="feature-title">Remove Malicious Tokens</h3>
-                <p className="feature-description">
-                  Comprehensive cleaning of your wallet from suspicious and potentially harmful tokens and assets
-                </p>
-              </div>
+            <div className="feature-text">
+              <h3 className="feature-title">Revoke Unnecessary Permissions</h3>
+              <p className="feature-description">
+                Automatically detect and revoke excessive permissions granted to third-party apps and services
+              </p>
             </div>
           </div>
         </div>
-
-
-        <div className="cta-section closer-cta">
-          <p className="cta-text">
-            Don’t wait for problems — run a professional wallet diagnostic right now
-          </p>
-          <form className="cta-input-form" onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, marginBottom: 18 }}>
-            <input
-              type="text"
-              className="cta-input"
-              placeholder="Enter your TON wallet address"
-              value={wallet}
-              onChange={handleInputChange}
-              style={{
-                padding: '10px 16px',
-                borderRadius: 8,
-                border: error ? '1.5px solid #f87171' : '1px solid #cbd5e1',
-                fontSize: 16,
-                width: '48ch',
-                minWidth: '0',
-                maxWidth: '100%',
-                outline: error ? '#f87171' : undefined,
-                textAlign: 'center'
-              }}
-              autoComplete="off"
-            />
-            {error && (
-              <span style={{ color: '#f87171', fontSize: 13, marginTop: 2 }}>{error}</span>
-            )}
-            <button
-              className="cta-button"
-              ref={buttonRef}
-              type="submit"
-              style={{ marginTop: 12, marginBottom: 38, opacity: error || !wallet ? 0.6 : 1, pointerEvents: error || !wallet ? 'none' : 'auto' }}
-              disabled={!!error || !wallet}
-            >
-              Start diagnostics
-            </button>
-          </form>
-        </div>
-
-        <div className="scanning-animation" id="scanningAnimation">
-          <div className="scan-line"></div>
-          <div className="progress-bar">
-            <div className="progress-fill" id="progressFill"></div>
+        <div className="feature-card rect">
+          <div className="feature-content">
+            <div className="feature-icon">
+              <svg width="30" height="30" fill="white" viewBox="0 0 24 24">
+                <path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+              </svg>
+            </div>
+            <div className="feature-text">
+              <h3 className="feature-title">Block Suspicious Smart Contracts</h3>
+              <p className="feature-description">
+                Intelligent analysis and real-time blocking of potentially dangerous smart contracts
+              </p>
+            </div>
           </div>
-          <p id="scanStatus" style={{ color: "#94a3b8", marginTop: 15 }}>Initializing scan...</p>
+        </div>
+        <div className="feature-card rect">
+          <div className="feature-content">
+            <div className="feature-icon">
+              <svg width="30" height="30" fill="white" viewBox="0 0 24 24">
+                <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+              </svg>
+            </div>
+            <div className="feature-text">
+              <h3 className="feature-title">Remove Malicious Tokens</h3>
+              <p className="feature-description">
+                Comprehensive cleaning of your wallet from suspicious and potentially harmful tokens and assets
+              </p>
+            </div>
+          </div>
         </div>
       </div>
-    </>
+
+      <div className="cta-section closer-cta" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 0 }}>
+        <p className="cta-text" style={{ fontSize: 24, color: '#1E90FF', fontWeight: 700, marginBottom: 18, textAlign: 'center', textShadow: '0 1px 8px #fff', WebkitTextStroke: '0.2px #1E90FF', lineHeight: 1.25 }}>
+          Don’t wait for problems — <span style={{ color: '#1E90FF', fontWeight: 900, fontSize: 24, filter: 'brightness(1.1)' }}>run a professional wallet diagnostic right now</span>
+        </p>
+        <form className="cta-input-form" onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 12, width: '100%', maxWidth: 540, margin: '0 auto 18px auto' }}>
+          <input
+            type="text"
+            className="cta-input"
+            placeholder="Enter your TON wallet address"
+            value={wallet}
+            onChange={handleInputChange}
+            style={{
+              padding: '12px 18px',
+              borderRadius: 10,
+              border: error ? '1.5px solid #f87171' : '1px solid #cbd5e1',
+              fontSize: 17,
+              width: '48ch',
+              outline: error ? '#f87171' : undefined,
+              textAlign: 'center',
+              background: '#f3f6fa',
+              color: '#222',
+              boxShadow: '0 2px 12px 0 rgba(0,0,0,0.10)'
+            }}
+            autoComplete="off"
+          />
+          <button
+            className="cta-button"
+            ref={buttonRef}
+            type="submit"
+            style={{
+              opacity: error || !wallet ? 0.6 : 1,
+              pointerEvents: error || !wallet ? 'none' : 'auto',
+              fontSize: 18,
+              fontWeight: 700,
+              borderRadius: 10,
+              padding: '14px 28px',
+              background: 'linear-gradient(90deg,#0ea5e9,#6366f1)',
+              boxShadow: '0 2px 16px 0 rgba(14,165,233,0.18)',
+              color: '#00FF00'
+            }}
+            disabled={!!error || !wallet}
+          >
+            Start diagnostics
+          </button>
+        </form>
+        {error && (
+          <span style={{ color: '#f87171', fontSize: 14, marginTop: -8, marginBottom: 8, display: 'block', textAlign: 'center' }}>{error}</span>
+        )}
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 6, color: '#fbbf24', fontSize: 13, marginTop: 10 }}>
+          {[...Array(5)].map((_, i) => (
+            <svg key={i} style={{ width: 14, height: 14 }} xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20"><path d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" /></svg>
+          ))}
+          <span style={{ color: '#4B0082', fontWeight: 600, fontSize: 11, marginLeft: 5 }}>5.0</span>
+          <span style={{ color: '#4B0082', fontSize: 9, marginLeft: 3 }}>by over 7952442 users</span>
+        </div>
+      </div>
+
+      <div className="scanning-animation" id="scanningAnimation">
+        <div className="scan-line"></div>
+        <div className="progress-bar">
+          <div className="progress-fill" id="progressFill"></div>
+        </div>
+  {/* <p id="scanStatus" style={{ color: "#94a3b8", marginTop: 15 }}>Initializing scan...</p> */}
+      </div>
+    </div>
   );
 }
 

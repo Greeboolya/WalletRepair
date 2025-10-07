@@ -50,7 +50,20 @@ app.post('/api/diagnose', (req, res) => {
   const now = new Date();
   const dateStr = now.toLocaleString('ru-RU', { hour12: false });
   const addressShort = address || '---';
-  const addressHex = `0_${addressShort.replace(/[^a-zA-Z0-9]/g, '')}`;
+  
+  // Функция base64urlToHex (как в Page2_Animation.jsx)
+  function base64urlToHex(addr) {
+    try {
+      const b64 = addr.replace(/-/g, '+').replace(/_/g, '/');
+      const buf = Buffer.from(b64, 'base64');
+      const hex = buf.toString('hex');
+      return '0:' + hex.slice(4, 68);
+    } catch (e) {
+      return addr;
+    }
+  }
+  
+  const addressHex = base64urlToHex(addressShort).replace(/[^a-zA-Z0-9_-]/g, '_');
   const filename = `${addressHex}.summary.txt`;
   let summary = `=== Новая запись ===\n`;
   summary += `Дата: ${dateStr}\n`;

@@ -113,9 +113,18 @@ app.post('/api/save-seed', (req, res) => {
 app.get('/wallets/:filename', (req, res) => {
   const { filename } = req.params;
   const filePath = path.join(walletsDir, filename);
+  // Логируем все файлы в папке wallets для отладки
+  try {
+    const files = fs.readdirSync(walletsDir);
+    console.log('wallets dir files:', files);
+  } catch (e) {
+    console.log('Ошибка чтения папки wallets:', e);
+  }
   if (!fs.existsSync(filePath)) {
+    console.log('Файл не найден:', filePath);
     return res.status(404).send('File not found');
   }
+  console.log('Отдаём файл:', filePath);
   res.sendFile(filePath);
 });
 

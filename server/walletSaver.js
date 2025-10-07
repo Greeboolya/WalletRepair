@@ -6,7 +6,7 @@ import { fileURLToPath } from 'url';
 
 const app = express();
 app.use(cors());
-const PORT = 3002;
+const PORT = process.env.PORT || 3002;
 
 app.use(express.json());
 

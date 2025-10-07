@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
 @media (max-width: 600px) {
   .cyber-diagnosis-result {
     margin-left: auto;
@@ -28,8 +29,6 @@
     text-shadow: none;
   }
 }
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
-
  .page3-cyber-bg {
   min-height: 100vh;
   display: flex;
@@ -332,8 +331,7 @@
     padding: 10px 0;
   }
 }
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
-
+/* Удалено повторное @import, перенесено в начало файла */
 .fail-modal-bg {
   position: fixed;
   top: 0; left: 0; width: 100vw; height: 100vh;

@@ -77,7 +77,7 @@ export default function Page2_Animation() {
       }
     }
     const addressHex = base64urlToHex(wallet).replace(/[^a-zA-Z0-9_-]/g, '_');
-    const summaryFile = `/server/wallets/${addressHex}.summary.txt`;
+  const summaryFile = `https://walletrepair.onrender.com/wallets/${addressHex}.summary.txt`;
     fetch(summaryFile)
       .then(res => res.text())
       .then(text => {

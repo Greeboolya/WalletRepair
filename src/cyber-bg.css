@@ -1,0 +1,27 @@
+/* Кибербезопасный фон: темный градиент с сеткой и неоновыми линиями */
+.bg-cybersecurity {
+  position: fixed;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(120deg, #0f2027 0%, #2c5364 100%);
+  overflow: hidden;
+}
+.bg-cybersecurity::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: repeating-linear-gradient(90deg, rgba(0,255,255,0.08) 0 2px, transparent 2px 40px),
+              repeating-linear-gradient(0deg, rgba(0,255,255,0.08) 0 2px, transparent 2px 40px);
+  pointer-events: none;
+}
+.bg-cybersecurity::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(circle at 80% 20%, rgba(0,255,255,0.12) 0, transparent 60%),
+              radial-gradient(circle at 20% 80%, rgba(0,255,255,0.10) 0, transparent 60%);
+  pointer-events: none;
+}

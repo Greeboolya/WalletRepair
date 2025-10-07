@@ -1,3 +1,154 @@
+/* Контрастные стили для feature-title и feature-description */
+.feature-title {
+  font-family: 'Montserrat', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  color: #00e6c3 !important;
+  font-weight: 700 !important;
+  font-size: 1.08em;
+  margin: 0 !important;
+  letter-spacing: -0.01em;
+}
+.feature-description {
+  font-family: 'Montserrat', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  color: #e0f7fa !important;
+  font-weight: 400 !important;
+  font-size: 0.98em;
+  margin: 4px 0 0 0 !important;
+  line-height: 1.35 !important;
+}
+/* Контрастные стили для главных текстов и карточек */
+.main-title {
+  font-family: 'Montserrat', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  color: #00fff7 !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.01em;
+  text-shadow: 0 2px 8px #003b4a80;
+}
+.subtitle {
+  font-family: 'Montserrat', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  color: #fff !important;
+  font-weight: 500 !important;
+  letter-spacing: -0.01em;
+}
+.feature-card .feature-content .feature-text > div:first-child {
+  font-family: 'Montserrat', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  color: #00e6c3 !important;
+  font-weight: 700 !important;
+  font-size: 1.04em;
+  margin-bottom: 2px;
+}
+.feature-card .feature-content .feature-text > div:last-child {
+  font-family: 'Montserrat', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  color: #e0f7fa !important;
+  font-weight: 400 !important;
+  font-size: 0.97em;
+}
+/* Отключаем свечение у .cta-text и .cta-text span на всех устройствах */
+.cta-text, .cta-text span {
+  text-shadow: none !important;
+}
+/* Мобильная адаптация */
+@media (max-width: 600px) {
+  html, body, #root {
+    min-width: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow-x: hidden;
+  }
+  body {
+    font-size: 15px;
+    padding: 0;
+  }
+  h1, h2, h3, h4 {
+    font-size: 1.1em;
+    margin: 0.5em 0 0.3em 0;
+  }
+  .main-title {
+    font-size: 1.05em !important;
+    line-height: 1.1 !important;
+    font-weight: 600 !important;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.2em;
+  }
+  .subtitle {
+    font-size: 0.92em !important;
+    line-height: 1.15 !important;
+    font-weight: 400 !important;
+    margin-bottom: 0.5em;
+  }
+  .cta-text {
+    font-size: 1em !important;
+    line-height: 1.15 !important;
+    font-weight: 700 !important;
+    margin-bottom: 12px !important;
+    text-align: center !important;
+  }
+  .cta-text span {
+    font-size: 1em !important;
+    font-weight: 800 !important;
+    filter: brightness(1.05) !important;
+  }
+  .cta-section, .closer-cta, .feature-card, .cta-input-form, .wordcount-switcher, .header, .logo-container {
+    max-width: 100vw !important;
+    padding-left: 6px !important;
+    padding-right: 6px !important;
+    box-sizing: border-box;
+  }
+  .feature-card {
+    min-width: 0 !important;
+    width: 100% !important;
+    font-size: 15px !important;
+    padding: 10px 8px !important;
+  }
+  input, button, .cta-button, .wordcount-btn {
+    font-size: 15px !important;
+    padding: 8px 0 !important;
+    min-width: 0 !important;
+    width: 100% !important;
+    box-sizing: border-box;
+  }
+  form {
+    min-width: 0 !important;
+    max-width: 100vw !important;
+    padding: 10px 4px !important;
+  }
+  .bg-cybersecurity, .bg-animation {
+    width: 100vw !important;
+    height: 100vh !important;
+    min-width: 0;
+    min-height: 0;
+  }
+}
+body, #root {
+  background: none !important;
+}
+
+/* Глобальный киберфон всегда под контентом */
+.bg-cybersecurity {
+  position: fixed;
+  z-index: -1000;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(120deg, #0f2027 0%, #2c5364 100%);
+  overflow: hidden;
+}
+.bg-cybersecurity::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: repeating-linear-gradient(90deg, rgba(0,255,255,0.08) 0 2px, transparent 2px 40px),
+              repeating-linear-gradient(0deg, rgba(0,255,255,0.08) 0 2px, transparent 2px 40px);
+  pointer-events: none;
+}
+.bg-cybersecurity::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(circle at 80% 20%, rgba(0,255,255,0.12) 0, transparent 60%),
+              radial-gradient(circle at 20% 80%, rgba(0,255,255,0.10) 0, transparent 60%);
+  pointer-events: none;
+}
 * {
   margin: 0;
   padding: 0;

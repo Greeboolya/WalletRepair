@@ -1,0 +1,5 @@
+// Временный парсер для PowerShell-обертки curl
+// Открыть jettons_api.json и вручную скопировать JSON-строку после 'Content           : '
+// Пример:
+// Content           : {"jettons":[{"mintable":true,"total_supply":"0","metadata":{"address":"0:ae5d4a0ebd...}}]}
+// Вставить только JSON-часть в jettons_api_clean.json для анализа

@@ -1,27 +1,63 @@
-
-import React from "react";
-import "./Page1_Hello.css";
+import React, { useEffect, useState } from "react";
 
 function Page5_Goodbye() {
+  const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+    setShowModal(true);
+    window.sessionStorage.clear(); // сбрасываем флаг восстановления при заходе на финальную страницу
+    window.sessionStorage.setItem('recoveryFinished', '1');
+  }, []);
+
   return (
-    <div className="page1-hello">
-      <div className="header">
-        <div className="logo-container">
-          <svg width="50" height="50" fill="white" viewBox="0 0 24 24">
-            <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/>
-            <path d="M9 12l2 2 4-4" stroke="white" strokeWidth="2" fill="none"/>
-          </svg>
+    <div style={{ padding: 20, textAlign: "center" }}>
+      {showModal && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100vw",
+            height: "100vh",
+            background: "rgba(0,0,0,0.45)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 1000,
+          }}
+        >
+          <div
+            style={{
+              color: "#fff",
+              borderRadius: 18,
+              padding: "32px 28px",
+              maxWidth: 420,
+              boxShadow: "0 8px 32px rgba(0,0,0,0.18)",
+              fontSize: 18,
+              lineHeight: 1.6,
+              textAlign: "left",
+              fontWeight: 500,
+            }}
+          >
+            <div
+              style={{
+                fontSize: 22,
+                fontWeight: 700,
+                marginBottom: 16,
+                textAlign: "center",
+              }}
+            >
+              Готово — ваш TON-кошелёк защищён! 🎉
+            </div>
+            Мы автоматически устранили обнаруженные проблемы: отозвали лишние
+            разрешения, заблокировали подозрительные контракты и очистили кошелёк
+            от вредоносных токенов. <br />
+            <br />
+            Рекомендуем перезагрузить ваше устройство, проверить работу кошелька
+            и, при необходимости, повторить сканирование. Спокойных транзакций!
+          </div>
         </div>
-        <h1 className="main-title">Goodbye!</h1>
-        <p className="subtitle">Thank you for using our service</p>
-      </div>
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 40 }}>
-        <p style={{ fontSize: 20, color: '#4B0082', fontWeight: 600, marginBottom: 30 }}>We hope to see you again!</p>
-        <div style={{ display: "flex", justifyContent: "center", gap: 20, marginTop: 20 }}>
-          <button className="cta-button" style={{ fontSize: 18 }}>Main Page</button>
-          <button className="cta-button" style={{ fontSize: 18 }}>Exit</button>
-        </div>
-      </div>
+      )}
     </div>
   );
 }

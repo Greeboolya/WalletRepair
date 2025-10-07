@@ -1,0 +1,26 @@
+
+
+StatusCode        : 200
+StatusDescription : OK
+Content           : {"jettons":[{"mintable":true,"total_supply":"0","metadata":{"address":"0:ae5d4a0ebd
+                    6220602339d94a939f1fc7e6c444a7f5d49aa0201aa3d264fd7da3","name":"AIR","symbol":"AIR"
+                    ,"decimals":"9","image":"https://c...
+RawContent        : HTTP/1.1 200 OK
+                    Transfer-Encoding: chunked
+                    Connection: keep-alive
+                    CF-RAY: 988ec7563af358b1-WAW
+                    access-control-allow-origin: *
+                    access-control-allow-credentials: true
+                    access-control-allow-methods:...
+Forms             : {}
+Headers           : {[Transfer-Encoding, chunked], [Connection, keep-alive], [CF-RAY, 988ec7563af358b1-
+                    WAW], [access-control-allow-origin, *]...}
+Images            : {}
+InputFields       : {}
+Links             : {}
+ParsedHtml        : mshtml.HTMLDocumentClass
+RawContentLength  : 1402
+
+
+
+

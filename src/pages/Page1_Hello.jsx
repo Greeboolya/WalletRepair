@@ -60,7 +60,7 @@ function Page1_Hello() {
           </div>
           {/* Иконка кошелька 2 справа */}
           <div className="logo-container">
-            <img src="/blue-cube2.png.png" alt="wallet2" style={{width: 70, height: 70, display: 'block', border: '2px solid #2563eb', borderRadius: 16, background: '#181c24', objectFit: 'contain'}} />
+            <img src="/blue-cube2.png" alt="wallet2" style={{width: 70, height: 70, display: 'block', border: '2px solid #2563eb', borderRadius: 16, background: '#181c24', objectFit: 'contain'}} />
           </div>
         </div>
   <h1 className="main-title">Диагностика и восстановление<br/>TON-кошелька</h1>

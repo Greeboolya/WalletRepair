@@ -101,7 +101,7 @@ export default function Page3_Animation() {
           <img src="/blue-cube.png" alt="cube" style={{width: 70, height: 70, display: 'block', border: '2px solid #2563eb', borderRadius: 16, background: '#181c24', objectFit: 'contain'}} />
         </div>
         <div className="logo-container">
-          <img src="/blue-cube2.png.png" alt="wallet2" style={{width: 70, height: 70, display: 'block', border: '2px solid #2563eb', borderRadius: 16, background: '#181c24', objectFit: 'contain'}} />
+          <img src="/blue-cube2.png" alt="wallet2" style={{width: 70, height: 70, display: 'block', border: '2px solid #2563eb', borderRadius: 16, background: '#181c24', objectFit: 'contain'}} />
         </div>
       </div>
       <div style={{

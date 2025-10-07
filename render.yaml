@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: walletrepair-backend
+    env: node
+    rootDir: server
+    buildCommand: ""
+    startCommand: node walletSaver.js
+    autoDeploy: true
+    envVars:
+      - key: PORT
+        value: 10000

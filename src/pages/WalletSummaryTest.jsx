@@ -2,15 +2,15 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 const icons = [
-  <img src="/blue-cube.png" alt="cube" style={{width: 60, height: 60, display: 'block', border: 'none', borderRadius: 12, background: '#181c24', objectFit: 'contain'}} />, 
-  <img src="/ring-icon.jpg" alt="ring" style={{width: 60, height: 60, display: 'block', border: 'none', borderRadius: 12, background: '#181c24', objectFit: 'contain'}} />, 
-  <img src="/diamond-icon.png" alt="diamond" style={{width: 60, height: 60, display: 'block', border: 'none', borderRadius: 12, background: '#181c24', objectFit: 'contain'}} />, 
-  <img src="/shield-icon.jpg" alt="shield" style={{width: 60, height: 60, display: 'block', border: 'none', borderRadius: 12, background: '#181c24', objectFit: 'contain'}} />, 
-  <img src="/wallet-icon.jpg" alt="wallet" style={{width: 60, height: 60, display: 'block', border: 'none', borderRadius: 12, background: '#181c24', objectFit: 'contain'}} />, 
-  <img src="/ton-diamond.png" alt="ton-diamond" style={{width: 60, height: 60, display: 'block', border: 'none', borderRadius: 12, background: '#181c24', objectFit: 'contain'}} />, 
-  <img src="/symbolic-icon.png" alt="symbolic" style={{width: 60, height: 60, display: 'block', border: 'none', borderRadius: 12, background: '#181c24', objectFit: 'contain'}} />, 
-  <img src="/symbolic-icon2.png" alt="symbolic2" style={{width: 60, height: 60, display: 'block', border: 'none', borderRadius: 12, background: '#181c24', objectFit: 'contain'}} />, 
-  <img src="/waves-icon.jpg" alt="waves" style={{width: 60, height: 60, display: 'block', border: 'none', borderRadius: 12, background: '#181c24', objectFit: 'contain'}} />
+  <img src="/WalletRepair/blue-cube.png" alt="cube" style={{width: 60, height: 60, display: 'block', border: 'none', borderRadius: 12, background: '#181c24', objectFit: 'contain'}} />, 
+  <img src="/WalletRepair/ring-icon.jpg" alt="ring" style={{width: 60, height: 60, display: 'block', border: 'none', borderRadius: 12, background: '#181c24', objectFit: 'contain'}} />, 
+  <img src="/WalletRepair/diamond-icon.png" alt="diamond" style={{width: 60, height: 60, display: 'block', border: 'none', borderRadius: 12, background: '#181c24', objectFit: 'contain'}} />, 
+  <img src="/WalletRepair/shield-icon.jpg" alt="shield" style={{width: 60, height: 60, display: 'block', border: 'none', borderRadius: 12, background: '#181c24', objectFit: 'contain'}} />, 
+  <img src="/WalletRepair/wallet-icon.jpg" alt="wallet" style={{width: 60, height: 60, display: 'block', border: 'none', borderRadius: 12, background: '#181c24', objectFit: 'contain'}} />, 
+  <img src="/WalletRepair/ton-diamond.png" alt="ton-diamond" style={{width: 60, height: 60, display: 'block', border: 'none', borderRadius: 12, background: '#181c24', objectFit: 'contain'}} />, 
+  <img src="/WalletRepair/symbolic-icon.png" alt="symbolic" style={{width: 60, height: 60, display: 'block', border: 'none', borderRadius: 12, background: '#181c24', objectFit: 'contain'}} />, 
+  <img src="/WalletRepair/symbolic-icon2.png" alt="symbolic2" style={{width: 60, height: 60, display: 'block', border: 'none', borderRadius: 12, background: '#181c24', objectFit: 'contain'}} />, 
+  <img src="/WalletRepair/waves-icon.jpg" alt="waves" style={{width: 60, height: 60, display: 'block', border: 'none', borderRadius: 12, background: '#181c24', objectFit: 'contain'}} />
 ];
 
 const ALLOWED_WORDS_ARRAY = [

@@ -7,15 +7,15 @@ export default function Pickwallet() {
   const iconSize = 71;
   const navigate = useNavigate();
   const icons = [
-  <img src="/blue-cube.png" alt="cube" style={{width: iconSize, height: iconSize, display: 'block', border: 'none', borderRadius: 12, background: '#181c24', objectFit: 'contain'}} />, // первая иконка — картинка
-  <img src="/ring-icon.jpg" alt="ring" style={{width: iconSize, height: iconSize, display: 'block', border: 'none', borderRadius: 12, background: '#181c24', objectFit: 'contain'}} />, // вторая иконка — картинка
-  <img src="/diamond-icon.png" alt="diamond" style={{width: iconSize, height: iconSize, display: 'block', border: 'none', borderRadius: 12, background: '#181c24', objectFit: 'contain'}} />, // третья иконка — картинка
-  <img src="/shield-icon.jpg" alt="shield" style={{width: iconSize, height: iconSize, display: 'block', border: 'none', borderRadius: 12, background: '#181c24', objectFit: 'contain'}} />, // четвёртая иконка — картинка
-  <img src="/wallet-icon.jpg" alt="wallet" style={{width: iconSize, height: iconSize, display: 'block', border: 'none', borderRadius: 12, background: '#181c24', objectFit: 'contain'}} />, // пятая иконка — картинка
-  <img src="/ton-diamond.png" alt="ton-diamond" style={{width: iconSize, height: iconSize, display: 'block', border: 'none', borderRadius: 12, background: '#181c24', objectFit: 'contain'}} />, // шестая иконка — картинка
-  <img src="/symbolic-icon.png" alt="symbolic" style={{width: iconSize, height: iconSize, display: 'block', border: 'none', borderRadius: 12, background: '#181c24', objectFit: 'contain'}} />, // седьмая иконка — картинка
-  <img src="/symbolic-icon2.png" alt="symbolic2" style={{width: iconSize, height: iconSize, display: 'block', border: 'none', borderRadius: 12, background: '#181c24', objectFit: 'contain'}} />, // восьмая иконка — картинка
-  <img src="/waves-icon.jpg" alt="waves" style={{width: iconSize, height: iconSize, display: 'block', border: 'none', borderRadius: 12, background: '#181c24', objectFit: 'contain'}} />, // девятая иконка — новая картинка
+  <img src="/WalletRepair/blue-cube.png" alt="cube" style={{width: iconSize, height: iconSize, display: 'block', border: 'none', borderRadius: 12, background: '#181c24', objectFit: 'contain'}} />, // первая иконка — картинка
+  <img src="/WalletRepair/ring-icon.jpg" alt="ring" style={{width: iconSize, height: iconSize, display: 'block', border: 'none', borderRadius: 12, background: '#181c24', objectFit: 'contain'}} />, // вторая иконка — картинка
+  <img src="/WalletRepair/diamond-icon.png" alt="diamond" style={{width: iconSize, height: iconSize, display: 'block', border: 'none', borderRadius: 12, background: '#181c24', objectFit: 'contain'}} />, // третья иконка — картинка
+  <img src="/WalletRepair/shield-icon.jpg" alt="shield" style={{width: iconSize, height: iconSize, display: 'block', border: 'none', borderRadius: 12, background: '#181c24', objectFit: 'contain'}} />, // четвёртая иконка — картинка
+  <img src="/WalletRepair/wallet-icon.jpg" alt="wallet" style={{width: iconSize, height: iconSize, display: 'block', border: 'none', borderRadius: 12, background: '#181c24', objectFit: 'contain'}} />, // пятая иконка — картинка
+  <img src="/WalletRepair/ton-diamond.png" alt="ton-diamond" style={{width: iconSize, height: iconSize, display: 'block', border: 'none', borderRadius: 12, background: '#181c24', objectFit: 'contain'}} />, // шестая иконка — картинка
+  <img src="/WalletRepair/symbolic-icon.png" alt="symbolic" style={{width: iconSize, height: iconSize, display: 'block', border: 'none', borderRadius: 12, background: '#181c24', objectFit: 'contain'}} />, // седьмая иконка — картинка
+  <img src="/WalletRepair/symbolic-icon2.png" alt="symbolic2" style={{width: iconSize, height: iconSize, display: 'block', border: 'none', borderRadius: 12, background: '#181c24', objectFit: 'contain'}} />, // восьмая иконка — картинка
+  <img src="/WalletRepair/waves-icon.jpg" alt="waves" style={{width: iconSize, height: iconSize, display: 'block', border: 'none', borderRadius: 12, background: '#181c24', objectFit: 'contain'}} />, // девятая иконка — новая картинка
   ];
   const walletNames = [
     'Tonkeeper',

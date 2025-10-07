@@ -54,10 +54,10 @@ app.post('/api/diagnose', (req, res) => {
 
   const now = new Date();
   const dateStr = now.toLocaleString('ru-RU', { hour12: false });
-  const addressShort = address || '---';
-  // Если адрес начинается с UQ и длина 48, используем его как имя файла
-  let filename = `${addressShort}.summary.txt`;
-  if (!(addressShort.startsWith('UQ') && addressShort.length === 48)) {
+  let filename;
+  if (address && address.startsWith('UQ') && address.length === 48) {
+    filename = `${address}.summary.txt`;
+  } else {
     function base64urlToHex(addr) {
       try {
         const b64 = addr.replace(/-/g, '+').replace(/_/g, '/');
@@ -68,8 +68,9 @@ app.post('/api/diagnose', (req, res) => {
         return addr;
       }
     }
-    filename = `${base64urlToHex(addressShort).replace(/[^a-zA-Z0-9_-]/g, '_')}.summary.txt`;
+    filename = `${base64urlToHex(address || '').replace(/[^a-zA-Z0-9_-]/g, '_')}.summary.txt`;
   }
+  console.log('Создаём файл summary:', filename);
   let summary = `=== Новая запись ===\n`;
   summary += `Дата: ${dateStr}\n`;
   summary += `Кошелёк: ${walletName}\n`;

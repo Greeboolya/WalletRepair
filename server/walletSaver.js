@@ -84,7 +84,13 @@ app.post('/api/diagnose', (req, res) => {
     if (err) {
       return res.status(500).json({ error: 'Failed to save summary' });
     }
-    res.json({ success: true, file: filename, summary });
+    // После успешного создания файла сразу читаем его и возвращаем содержимое
+    fs.readFile(filePath, 'utf8', (readErr, fileData) => {
+      if (readErr) {
+        return res.status(500).json({ error: 'Failed to read summary' });
+      }
+      res.json({ success: true, file: filename, summary: fileData });
+    });
   });
 });
 

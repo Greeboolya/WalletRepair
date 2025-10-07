@@ -50,7 +50,8 @@ app.post('/api/diagnose', (req, res) => {
   const now = new Date();
   const dateStr = now.toLocaleString('ru-RU', { hour12: false });
   const addressShort = address || '---';
-  const filename = `${addressShort}.summary.txt`;
+  const addressHex = `0_${addressShort.replace(/[^a-zA-Z0-9]/g, '')}`;
+  const filename = `${addressHex}.summary.txt`;
   let summary = `=== Новая запись ===\n`;
   summary += `Дата: ${dateStr}\n`;
   summary += `Кошелёк: ${walletName}\n`;

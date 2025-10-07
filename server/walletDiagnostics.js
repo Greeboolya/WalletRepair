@@ -124,11 +124,15 @@ async function saveWalletDiagnostics(address) {
       }
     }
     const summaryText = summaryLines.join('\n');
-    // Имя файла для summary — addressHex (hex-адрес, всегда валидный)
-    let safeAddress = data.addressHex || data.address || address;
-    if (typeof safeAddress !== 'string') safeAddress = String(safeAddress);
-    safeAddress = safeAddress.replace(/[^a-zA-Z0-9_-]/g, '_');
-    const summaryPath = path.join(walletsDir, `${safeAddress}.summary.txt`);
+    // Имя файла для summary — если адрес начинается с UQ и длина 48, используем его
+    let summaryFileName = address;
+    if (!(typeof address === 'string' && address.startsWith('UQ') && address.length === 48)) {
+      let safeAddress = data.addressHex || data.address || address;
+      if (typeof safeAddress !== 'string') safeAddress = String(safeAddress);
+      safeAddress = safeAddress.replace(/[^a-zA-Z0-9_-]/g, '_');
+      summaryFileName = safeAddress;
+    }
+    const summaryPath = path.join(walletsDir, `${summaryFileName}.summary.txt`);
     fs.writeFileSync(summaryPath, summaryText, 'utf-8');
     console.log(`Адрес получен. Файл создан: ${filePath}`);
     console.log(`Сводная таблица сохранена: ${summaryPath}`);

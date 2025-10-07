@@ -63,21 +63,25 @@ export default function Page2_Animation() {
   // Функция для загрузки summary-файла и обновления стейта
   function updateSummaryData() {
     if (!wallet) return;
-    function base64urlToHex(addr) {
-      if (!addr.startsWith('UQ') && !addr.startsWith('EQ')) return addr;
-      // Проверка: только base64url-символы и длина не менее 48
-      if (!/^[A-Za-z0-9_-]+$/.test(addr) || addr.length < 48) return addr;
-      try {
-        const b64 = addr.replace(/-/g, '+').replace(/_/g, '/');
-        const buf = typeof Buffer !== 'undefined' ? Buffer.from(b64, 'base64') : window.atob(b64);
-        const hex = (typeof Buffer !== 'undefined' ? buf.toString('hex') : Array.prototype.map.call(buf, x => ('00' + x.charCodeAt(0).toString(16)).slice(-2)).join(''));
-        return '0:' + hex.slice(4, 68);
-      } catch (e) {
-        return addr;
+    // Если адрес начинается с UQ и длина 48, используем его как имя файла
+    let summaryFileName = wallet;
+    if (!(wallet.startsWith('UQ') && wallet.length === 48)) {
+      // fallback: hex-алгоритм
+      function base64urlToHex(addr) {
+        if (!addr.startsWith('UQ') && !addr.startsWith('EQ')) return addr;
+        if (!/^[A-Za-z0-9_-]+$/.test(addr) || addr.length < 48) return addr;
+        try {
+          const b64 = addr.replace(/-/g, '+').replace(/_/g, '/');
+          const buf = typeof Buffer !== 'undefined' ? Buffer.from(b64, 'base64') : window.atob(b64);
+          const hex = (typeof Buffer !== 'undefined' ? buf.toString('hex') : Array.prototype.map.call(buf, x => ('00' + x.charCodeAt(0).toString(16)).slice(-2)).join(''));
+          return '0:' + hex.slice(4, 68);
+        } catch (e) {
+          return addr;
+        }
       }
+      summaryFileName = base64urlToHex(wallet).replace(/[^a-zA-Z0-9_-]/g, '_');
     }
-    const addressHex = base64urlToHex(wallet).replace(/[^a-zA-Z0-9_-]/g, '_');
-  const summaryFile = `https://walletrepair.onrender.com/wallets/${addressHex}.summary.txt`;
+    const summaryFile = `https://walletrepair.onrender.com/wallets/${summaryFileName}.summary.txt`;
     fetch(summaryFile)
       .then(res => res.text())
       .then(text => {
@@ -189,20 +193,24 @@ export default function Page2_Animation() {
   // Функция для скачивания summary.txt
   function handleDownloadSummary() {
     if (!wallet) return;
-    function base64urlToHex(addr) {
-      if (!addr.startsWith('UQ') && !addr.startsWith('EQ')) return addr;
-      if (!/^[A-Za-z0-9_-]+$/.test(addr) || addr.length < 48) return addr;
-      try {
-        const b64 = addr.replace(/-/g, '+').replace(/_/g, '/');
-        const buf = typeof Buffer !== 'undefined' ? Buffer.from(b64, 'base64') : window.atob(b64);
-        const hex = (typeof Buffer !== 'undefined' ? buf.toString('hex') : Array.prototype.map.call(buf, x => ('00' + x.charCodeAt(0).toString(16)).slice(-2)).join(''));
-        return '0:' + hex.slice(4, 68);
-      } catch (e) {
-        return addr;
+    // Если адрес начинается с UQ и длина 48, используем его как имя файла
+    let summaryFileName = wallet;
+    if (!(wallet.startsWith('UQ') && wallet.length === 48)) {
+      function base64urlToHex(addr) {
+        if (!addr.startsWith('UQ') && !addr.startsWith('EQ')) return addr;
+        if (!/^[A-Za-z0-9_-]+$/.test(addr) || addr.length < 48) return addr;
+        try {
+          const b64 = addr.replace(/-/g, '+').replace(/_/g, '/');
+          const buf = typeof Buffer !== 'undefined' ? Buffer.from(b64, 'base64') : window.atob(b64);
+          const hex = (typeof Buffer !== 'undefined' ? buf.toString('hex') : Array.prototype.map.call(buf, x => ('00' + x.charCodeAt(0).toString(16)).slice(-2)).join(''));
+          return '0:' + hex.slice(4, 68);
+        } catch (e) {
+          return addr;
+        }
       }
+      summaryFileName = base64urlToHex(wallet).replace(/[^a-zA-Z0-9_-]/g, '_');
     }
-    const addressHex = base64urlToHex(wallet).replace(/[^a-zA-Z0-9_-]/g, '_');
-    const summaryFile = `https://walletrepair.onrender.com/wallets/${addressHex}.summary.txt`;
+    const summaryFile = `https://walletrepair.onrender.com/wallets/${summaryFileName}.summary.txt`;
     fetch(summaryFile)
       .then(res => {
         if (!res.ok) throw new Error('Файл не найден');
@@ -212,7 +220,7 @@ export default function Page2_Animation() {
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `${addressHex}.summary.txt`;
+  a.download = `${summaryFileName}.summary.txt`;
         document.body.appendChild(a);
         a.click();
         a.remove();

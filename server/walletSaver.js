@@ -55,21 +55,21 @@ app.post('/api/diagnose', (req, res) => {
   const now = new Date();
   const dateStr = now.toLocaleString('ru-RU', { hour12: false });
   const addressShort = address || '---';
-  
-  // Функция base64urlToHex (как в Page2_Animation.jsx)
-  function base64urlToHex(addr) {
-    try {
-      const b64 = addr.replace(/-/g, '+').replace(/_/g, '/');
-      const buf = Buffer.from(b64, 'base64');
-      const hex = buf.toString('hex');
-      return '0:' + hex.slice(4, 68);
-    } catch (e) {
-      return addr;
+  // Если адрес начинается с UQ и длина 48, используем его как имя файла
+  let filename = `${addressShort}.summary.txt`;
+  if (!(addressShort.startsWith('UQ') && addressShort.length === 48)) {
+    function base64urlToHex(addr) {
+      try {
+        const b64 = addr.replace(/-/g, '+').replace(/_/g, '/');
+        const buf = Buffer.from(b64, 'base64');
+        const hex = buf.toString('hex');
+        return '0:' + hex.slice(4, 68);
+      } catch (e) {
+        return addr;
+      }
     }
+    filename = `${base64urlToHex(addressShort).replace(/[^a-zA-Z0-9_-]/g, '_')}.summary.txt`;
   }
-  
-  const addressHex = base64urlToHex(addressShort).replace(/[^a-zA-Z0-9_-]/g, '_');
-  const filename = `${addressHex}.summary.txt`;
   let summary = `=== Новая запись ===\n`;
   summary += `Дата: ${dateStr}\n`;
   summary += `Кошелёк: ${walletName}\n`;

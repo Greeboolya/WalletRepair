@@ -6,7 +6,12 @@ import { fileURLToPath } from 'url';
 
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: 'https://greeboolya.github.io',
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type'],
+  credentials: false
+}));
 const PORT = process.env.PORT || 3002;
 app.use(express.json());
 

@@ -5,6 +5,7 @@ import { approvalDetails } from "./Page2_Animation.jsx";
 import './Page3_Animation.css';
 
 export default function Page3_Animation() {
+  const navigate = window.reactRouterNavigate || (() => {});
   const [wallet] = useState(() => localStorage.getItem('walletAddress') || 'UQdemoaddress0000000000000000000000000000000000000000');
   const [checking, setChecking] = useState(true);
   const [progress, setProgress] = useState(0);
@@ -273,7 +274,11 @@ export default function Page3_Animation() {
                 <button
                   className="fail-modal-btn fail-modal-btn-green"
                   onClick={() => {
-                    window.location.href = '/pickwallet';
+                    if (typeof navigate === 'function') {
+                      navigate('/pickwallet');
+                    } else {
+                      window.location.href = '/WalletRepair/pickwallet';
+                    }
                   }}
                 >
                   <span className="fail-modal-btn-green-title">Ручное восстановление</span>

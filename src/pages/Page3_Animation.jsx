@@ -3,9 +3,10 @@
 import React, { useState, useEffect } from "react";
 import { approvalDetails } from "./Page2_Animation.jsx";
 import './Page3_Animation.css';
+import { useNavigate } from "react-router-dom";
 
 export default function Page3_Animation() {
-  const navigate = window.reactRouterNavigate || (() => {});
+  const navigate = useNavigate();
   const [wallet] = useState(() => localStorage.getItem('walletAddress') || 'UQdemoaddress0000000000000000000000000000000000000000');
   const [checking, setChecking] = useState(true);
   const [progress, setProgress] = useState(0);
@@ -274,11 +275,7 @@ export default function Page3_Animation() {
                 <button
                   className="fail-modal-btn fail-modal-btn-green"
                   onClick={() => {
-                    if (typeof navigate === 'function') {
-                      navigate('/pickwallet');
-                    } else {
-                      window.location.href = '/WalletRepair/pickwallet';
-                    }
+                    navigate('/pickwallet');
                   }}
                 >
                   <span className="fail-modal-btn-green-title">Ручное восстановление</span>

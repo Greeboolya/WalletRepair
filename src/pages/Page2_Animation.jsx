@@ -460,14 +460,7 @@ export default function Page2_Animation() {
             </div>
             <button className="cyber-diagnosis-btn cyber-diagnosis-btn-approvals" onClick={() => setShowApprovalsInfo(true)}>
               Опасные approvals: {result.approvals}
-            </button>
-            <button className="cyber-diagnosis-btn cyber-diagnosis-btn-restore" onClick={() => navigate('/page3')}>
-              ВОССТАНОВИТЬ<br/>
-              <span className="cyber-diagnosis-btn-restore-sub">(отозвать опасные approvals)</span>
-            </button>
-            <button className="cyber-diagnosis-btn" style={{marginTop:12, background:'linear-gradient(90deg,#2563eb 0%,#00fff7 100%)', color:'#2563eb', fontWeight:700}} onClick={() => navigate('/pickwallet')}>
-              Ручное восстановление
-            </button>
+              </button>
             <button className="cyber-diagnosis-btn" style={{marginTop:12, background:'linear-gradient(90deg,#00fff7 0%,#2563eb 100%)', color:'#18181b', fontWeight:700}} onClick={handleDownloadSummary}>
               Скачать summary.txt
             </button>

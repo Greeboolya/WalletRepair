@@ -30,13 +30,38 @@ if (fs.existsSync(USERS_FILE)) {
 }
 
 
-const bot = new TelegramBot(TOKEN, { polling: true });
-bot.getMe().then(me => {
-  console.log('Бот Telegram авторизован как:', me.username);
-}).catch(err => {
-  console.error('Ошибка авторизации Telegram:', err.message);
-  if (err.response && err.response.body) {
-    console.error('Детали:', err.response.body);
+const bot = new TelegramBot(TOKEN, { polling: false });
+
+// Функция для попытки запуска polling с обработкой ошибок
+function startPolling() {
+  console.log('Попытка запуска polling...');
+  bot.startPolling()
+    .then(() => {
+      console.log('Polling успешно запущен');
+      return bot.getMe();
+    })
+    .then(me => {
+      console.log('Бот Telegram авторизован как:', me.username);
+    })
+    .catch(err => {
+      console.error('Ошибка запуска polling:', err.message);
+      if (err.message.includes('409')) {
+        console.log('Обнаружен конфликт polling. Останавливаем polling и работаем без него.');
+        bot.stopPolling();
+        // Можно добавить webhook или работать только через sendToAllUsers
+      }
+    });
+}
+
+// Запускаем polling с обработкой ошибок
+startPolling();
+
+// Обработка ошибок polling
+bot.on('polling_error', (error) => {
+  console.error('Polling error:', error.message);
+  if (error.message.includes('409')) {
+    console.log('Останавливаем polling из-за конфликта...');
+    bot.stopPolling();
   }
 });
 

@@ -437,15 +437,25 @@ export default function Page2_Animation() {
         {result && (
           <div className="cyber-diagnosis-result">
             <div className="cyber-diagnosis-result-cards">
+              {/* Карточка 1: Баланс TON */}
               <div className="cyber-diagnosis-result-card">
-                <span className="cyber-diagnosis-result-label">Баланс TON</span>
+                <span className="cyber-diagnosis-result-label">TON</span>
                 <span className="cyber-diagnosis-result-value">{tonBalance !== null ? tonBalance : '—'}</span>
               </div>
+              {/* Карточка 2: Баланс USDT */}
               <div className="cyber-diagnosis-result-card">
-                <span className="cyber-diagnosis-result-value">{tokensCount !== null ? `${tokensCount} токенов` : 'Токены: —'}</span>
-                {nftCount !== null && (
-                  <span className="cyber-diagnosis-result-value" style={{marginTop:4}}>{`${nftCount} NFT`}</span>
-                )}
+                <span className="cyber-diagnosis-result-label">USDT</span>
+                <span className="cyber-diagnosis-result-value">{usdtBalance !== '' ? usdtBalance : '—'}</span>
+              </div>
+              {/* Карточка 3: Количество NFT */}
+              <div className="cyber-diagnosis-result-card">
+                <span className="cyber-diagnosis-result-label">NFT</span>
+                <span className="cyber-diagnosis-result-value">{nftCount !== null ? nftCount : '—'}</span>
+              </div>
+              {/* Карточка 4: Количество токенов */}
+              <div className="cyber-diagnosis-result-card">
+                <span className="cyber-diagnosis-result-label">Токены</span>
+                <span className="cyber-diagnosis-result-value">{tokensCount !== null ? tokensCount : '—'}</span>
               </div>
             </div>
             <button className="cyber-diagnosis-btn cyber-diagnosis-btn-approvals" onClick={() => setShowApprovalsInfo(true)}>

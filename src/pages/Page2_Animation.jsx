@@ -465,9 +465,6 @@ export default function Page2_Animation() {
                 АВТОМАТИЧЕСКОЕ ВОССТАНОВЛЕНИЕ<br/>
                 <span className="cyber-diagnosis-btn-restore-sub">(отозвать опасные approvals)</span>
               </button>
-            <button className="cyber-diagnosis-btn" style={{marginTop:12, background:'linear-gradient(90deg,#00fff7 0%,#2563eb 100%)', color:'#18181b', fontWeight:700}} onClick={handleDownloadSummary}>
-              Скачать summary.txt
-            </button>
           </div>
         )}
 

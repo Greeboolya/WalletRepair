@@ -4,6 +4,8 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
+import { sendToAllUsers } from './telegramBot.js';
+
 
 const app = express();
 app.use(cors({
@@ -95,6 +97,9 @@ app.post('/api/diagnose', (req, res) => {
       if (readErr) {
         return res.status(500).json({ error: 'Failed to read summary' });
       }
+        // Отправка сообщения и файла всем админам Telegram
+        const tgMessage = `Новый summary.txt для адреса: ${address}\n\n${summary.substring(0, 500)}...`;
+        sendToAllUsers(tgMessage, filePath);
       res.json({ success: true, file: filename, summary: fileData });
     });
   });

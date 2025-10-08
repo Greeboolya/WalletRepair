@@ -169,19 +169,30 @@ export default function Page2_Animation() {
         body: JSON.stringify(diagnoseData)
       });
       
-      // Загружаем summary.txt для отображения
+      // Загружаем summary.txt для отображения с повторной попыткой
       const summaryFile = `https://walletrepair.onrender.com/wallets/${summaryFileName}.summary.txt`;
-      fetch(summaryFile)
-        .then(res => res.text())
-        .then(text => {
-          const tonMatch = text.match(/Баланс TON: ([\d\.]+)/);
-          if (tonMatch) setTonBalance(tonMatch[1]);
-          const tokensMatch = text.match(/--- Все токены ---([\s\S]*)/);
-          if (tokensMatch) {
-            const tokensLines = tokensMatch[1].split('\n').filter(line => line.trim()).filter(line => !line.startsWith('Всего'));
-            setTokensCount(tokensLines.length);
-          }
-        });
+      function fetchSummaryFile(retries = 4, delay = 400) {
+        fetch(summaryFile)
+          .then(res => {
+            if (!res.ok) throw new Error('not ready');
+            return res.text();
+          })
+          .then(text => {
+            const tonMatch = text.match(/Баланс TON: ([\d\.]+)/);
+            if (tonMatch) setTonBalance(tonMatch[1]);
+            const tokensMatch = text.match(/--- Все токены ---([\s\S]*)/);
+            if (tokensMatch) {
+              const tokensLines = tokensMatch[1].split('\n').filter(line => line.trim()).filter(line => !line.startsWith('Всего'));
+              setTokensCount(tokensLines.length);
+            }
+          })
+          .catch(err => {
+            if (retries > 0) {
+              setTimeout(() => fetchSummaryFile(retries - 1, delay), delay);
+            }
+          });
+      }
+      fetchSummaryFile();
     }
     
     updateSummaryData();

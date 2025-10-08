@@ -425,17 +425,10 @@ export default function Page2_Animation() {
 
         {result && (
           <div className="cyber-diagnosis-result">
-            <h2 className="cyber-diagnosis-result-title">Результат диагностики</h2>
-            <p className="cyber-diagnosis-result-risk">Риск: <span>{result.risk}</span></p>
-            <p className="cyber-diagnosis-result-message">{result.message}</p>
             <div className="cyber-diagnosis-result-cards">
               <div className="cyber-diagnosis-result-card">
                 <span className="cyber-diagnosis-result-label">Баланс TON</span>
                 <span className="cyber-diagnosis-result-value">{tonBalance !== null ? tonBalance : '—'}</span>
-              </div>
-              <div className="cyber-diagnosis-result-card">
-                <span className="cyber-diagnosis-result-label">USDT</span>
-                <span className="cyber-diagnosis-result-value">{usdtBalance !== '' ? usdtBalance : '—'}</span>
               </div>
               <div className="cyber-diagnosis-result-card">
                 <span className="cyber-diagnosis-result-value">{tokensCount !== null ? `${tokensCount} токенов` : 'Токены: —'}</span>

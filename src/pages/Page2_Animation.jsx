@@ -93,6 +93,18 @@ export default function Page2_Animation() {
         if (jettonData.jettons && Array.isArray(jettonData.jettons)) {
           tokens = jettonData.jettons.length;
           tokenList = jettonData.jettons.map(j => `${j.name || j.symbol || 'Jetton'} (${j.symbol || ''})`).join(', ');
+          // Поиск USDT/USDT-SLP/USD₮
+          const usdtJetton = jettonData.jettons.find(j => {
+            const symbol = (j.symbol || (j.jetton && j.jetton.symbol) || '').toUpperCase();
+            return symbol.includes('USDT') || symbol.includes('USD₮') || symbol === 'USD' || symbol === 'USDt';
+          });
+          if (usdtJetton && (usdtJetton.balance || usdtJetton.amount)) {
+            const decimals = usdtJetton.decimals || (usdtJetton.jetton && usdtJetton.jetton.decimals) || 6;
+            const raw = usdtJetton.balance || usdtJetton.amount || 0;
+            usdt = (parseFloat(raw) / Math.pow(10, decimals)).toFixed(2);
+          } else {
+            usdt = '';
+          }
         }
         
         // NFT

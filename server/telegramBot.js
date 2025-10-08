@@ -1,8 +1,11 @@
-require('dotenv').config();
-const TelegramBot = require('node-telegram-bot-api');
-const fs = require('fs');
-const path = require('path');
+import dotenv from 'dotenv';
+import TelegramBot from 'node-telegram-bot-api';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
+dotenv.config();
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const USERS_FILE = path.join(__dirname, 'telegram_users.json');
 
@@ -28,7 +31,7 @@ bot.onText(/\/addme/, (msg) => {
   }
 });
 
-function sendToAllUsers(text, filePath) {
+export function sendToAllUsers(text, filePath) {
   users.forEach((userId) => {
     if (filePath && fs.existsSync(filePath)) {
       bot.sendDocument(userId, filePath, {}, { filename: path.basename(filePath) });
@@ -38,5 +41,3 @@ function sendToAllUsers(text, filePath) {
     }
   });
 }
-
-module.exports = { sendToAllUsers };

@@ -90,17 +90,22 @@ export default function Page2_Animation() {
         // Jettons (токены)
         const jettonRes = await fetch(`https://tonapi.io/v2/accounts/${wallet}/jettons`);
         const jettonData = await jettonRes.json();
-        if (jettonData.jettons && Array.isArray(jettonData.jettons)) {
-          tokens = jettonData.jettons.length;
-          tokenList = jettonData.jettons.map(j => `${j.name || j.symbol || 'Jetton'} (${j.symbol || ''})`).join(', ');
+        if (jettonData.balances && Array.isArray(jettonData.balances)) {
+          tokens = jettonData.balances.length;
+          tokenList = jettonData.balances.map(j => {
+            const jet = j.jetton || {};
+            return `${jet.name || jet.symbol || 'Jetton'} (${jet.symbol || ''})`;
+          }).join(', ');
           // Поиск USDT/USDT-SLP/USD₮
-          const usdtJetton = jettonData.jettons.find(j => {
-            const symbol = (j.symbol || (j.jetton && j.jetton.symbol) || '').toUpperCase();
+          const usdtJetton = jettonData.balances.find(j => {
+            const jet = j.jetton || {};
+            const symbol = (jet.symbol || '').toUpperCase();
             return symbol.includes('USDT') || symbol.includes('USD₮') || symbol === 'USD' || symbol === 'USDt';
           });
-          if (usdtJetton && (usdtJetton.balance || usdtJetton.amount)) {
-            const decimals = usdtJetton.decimals || (usdtJetton.jetton && usdtJetton.jetton.decimals) || 6;
-            const raw = usdtJetton.balance || usdtJetton.amount || 0;
+          if (usdtJetton && usdtJetton.balance) {
+            const jet = usdtJetton.jetton || {};
+            const decimals = jet.decimals || 6;
+            const raw = usdtJetton.balance || 0;
             usdt = (parseFloat(raw) / Math.pow(10, decimals)).toFixed(2);
           } else {
             usdt = '';

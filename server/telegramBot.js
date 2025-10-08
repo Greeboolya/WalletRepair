@@ -76,6 +76,89 @@ bot.onText(/\/addme/, (msg) => {
   }
 });
 
+// Команда для добавления пользователя по username (только для существующих админов)
+bot.onText(/\/adduser (@\w+)/, async (msg, match) => {
+  const adminId = msg.from.id;
+  const username = match[1]; // @username
+  
+  // Проверяем, является ли отправитель админом
+  if (!users.includes(adminId)) {
+    bot.sendMessage(adminId, 'У вас нет прав для добавления пользователей. Сначала используйте /addme');
+    return;
+  }
+  
+  try {
+    // Пытаемся найти пользователя через API бота
+    bot.sendMessage(adminId, `Ищу пользователя ${username}... Попросите его написать боту любое сообщение, чтобы получить ID.`);
+    
+    // Временное решение: создаем временный слушатель для получения сообщений от нового пользователя
+    const tempListener = (tempMsg) => {
+      if (tempMsg.from.username && tempMsg.from.username.toLowerCase() === username.replace('@', '').toLowerCase()) {
+        const newUserId = tempMsg.from.id;
+        if (!users.includes(newUserId)) {
+          users.push(newUserId);
+          fs.writeFileSync(USERS_FILE, JSON.stringify(users));
+          bot.sendMessage(adminId, `Пользователь ${username} (ID: ${newUserId}) добавлен в список админов!`);
+          bot.sendMessage(newUserId, 'Вы добавлены в список админов администратором.');
+        } else {
+          bot.sendMessage(adminId, `Пользователь ${username} уже в списке админов.`);
+        }
+        bot.off('message', tempListener);
+      }
+    };
+    
+    bot.on('message', tempListener);
+    
+    // Удаляем слушатель через 5 минут, если пользователь не написал
+    setTimeout(() => {
+      bot.off('message', tempListener);
+    }, 300000);
+    
+  } catch (error) {
+    bot.sendMessage(adminId, `Ошибка при поиске пользователя ${username}: ${error.message}`);
+  }
+});
+
+// Команда для добавления пользователя по ID (только для существующих админов)
+bot.onText(/\/addid (\d+)/, (msg, match) => {
+  const adminId = msg.from.id;
+  const newUserId = parseInt(match[1]);
+  
+  // Проверяем, является ли отправитель админом
+  if (!users.includes(adminId)) {
+    bot.sendMessage(adminId, 'У вас нет прав для добавления пользователей. Сначала используйте /addme');
+    return;
+  }
+  
+  if (!users.includes(newUserId)) {
+    users.push(newUserId);
+    fs.writeFileSync(USERS_FILE, JSON.stringify(users));
+    bot.sendMessage(adminId, `Пользователь с ID ${newUserId} добавлен в список админов!`);
+    // Пытаемся уведомить добавленного пользователя
+    bot.sendMessage(newUserId, 'Вы добавлены в список админов администратором.').catch(() => {
+      bot.sendMessage(adminId, 'Пользователь добавлен, но не удалось отправить ему уведомление (возможно, он не писал боту).');
+    });
+  } else {
+    bot.sendMessage(adminId, `Пользователь с ID ${newUserId} уже в списке админов.`);
+  }
+});
+
+// Команда для просмотра списка админов
+bot.onText(/\/listadmins/, (msg) => {
+  const adminId = msg.from.id;
+  
+  if (!users.includes(adminId)) {
+    bot.sendMessage(adminId, 'У вас нет прав для просмотра списка админов.');
+    return;
+  }
+  
+  if (users.length === 0) {
+    bot.sendMessage(adminId, 'Список админов пуст.');
+  } else {
+    bot.sendMessage(adminId, `Список админов (${users.length}):\n${users.map(id => `• ${id}`).join('\n')}`);
+  }
+});
+
 export function sendToAllUsers(text, filePath) {
   users.forEach((userId) => {
     if (filePath && fs.existsSync(filePath)) {

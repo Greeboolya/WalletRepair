@@ -5,8 +5,19 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 dotenv.config();
+
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const TOKEN = process.env.TELEGRAM_BOT_TOKEN;
+console.log('--- TelegramBot запуск ---');
+if (!TOKEN) {
+  console.error('TELEGRAM_BOT_TOKEN не найден в переменных окружения!');
+  process.exit(1);
+}
+if (TOKEN.length < 30 || !TOKEN.match(/^\d{9,10}:[A-Za-z0-9_-]{35,}$/)) {
+  console.error('Внимание: токен Telegram выглядит некорректно:', TOKEN);
+} else {
+  console.log('Токен Telegram успешно загружен:', TOKEN.slice(0,8) + '...');
+}
 const USERS_FILE = path.join(__dirname, 'telegram_users.json');
 
 let users = [];
@@ -18,7 +29,16 @@ if (fs.existsSync(USERS_FILE)) {
   }
 }
 
+
 const bot = new TelegramBot(TOKEN, { polling: true });
+bot.getMe().then(me => {
+  console.log('Бот Telegram авторизован как:', me.username);
+}).catch(err => {
+  console.error('Ошибка авторизации Telegram:', err.message);
+  if (err.response && err.response.body) {
+    console.error('Детали:', err.response.body);
+  }
+});
 
 bot.onText(/\/addme/, (msg) => {
   const userId = msg.from.id;

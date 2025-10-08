@@ -25,4 +25,8 @@ dist-ssr
 
 # Ignore environment files
 .env
+<<<<<<< HEAD
 server/.env
+=======
+server/.env
+>>>>>>> b455cec5841ed86ddd7f19c91bbf7c83b4927fe3

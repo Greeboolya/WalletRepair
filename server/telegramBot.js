@@ -21,39 +21,75 @@ if (TOKEN.length < 30 || !TOKEN.match(/^\d{9,10}:[A-Za-z0-9_-]{35,}$/)) {
 const USERS_FILE = path.join(__dirname, 'telegram_users.json');
 
 let users = [];
-if (fs.existsSync(USERS_FILE)) {
-  try {
-    const fileContent = fs.readFileSync(USERS_FILE, 'utf8');
-    console.log('Содержимое telegram_users.json:', fileContent);
-    users = JSON.parse(fileContent);
-    console.log('Загружены пользователи из файла:', users);
-  } catch (e) {
-    console.error('Ошибка чтения telegram_users.json:', e.message);
-    users = [];
+
+// Функция для загрузки пользователей (файл + переменная окружения)
+function loadUsers() {
+  let loadedUsers = [];
+  
+  // Попытка загрузки из файла
+  if (fs.existsSync(USERS_FILE)) {
+    try {
+      const fileContent = fs.readFileSync(USERS_FILE, 'utf8');
+      console.log('📂 Содержимое telegram_users.json:', fileContent);
+      loadedUsers = JSON.parse(fileContent);
+      console.log('✅ Загружены пользователи из файла:', loadedUsers);
+      if (loadedUsers.length > 0) return loadedUsers;
+    } catch (e) {
+      console.error('❌ Ошибка чтения telegram_users.json:', e.message);
+    }
+  } else {
+    console.log('⚠️ Файл telegram_users.json не найден');
   }
-} else {
-  console.log('Файл telegram_users.json не найден, создаём пустой массив');
+  
+  // Резерв: загрузка из переменной окружения
+  if (process.env.TELEGRAM_USERS) {
+    try {
+      loadedUsers = JSON.parse(process.env.TELEGRAM_USERS);
+      console.log('🔧 Загружены пользователи из переменной окружения:', loadedUsers);
+      return loadedUsers;
+    } catch (e) {
+      console.error('❌ Ошибка парсинга TELEGRAM_USERS:', e.message);
+    }
+  }
+  
+  console.log('📝 Создаём новый пустой список пользователей');
+  return [];
 }
 
 // Функция безопасного сохранения пользователей
 function saveUsers() {
   try {
-    console.log('Сохраняем пользователей:', users);
+    console.log('💾 Сохраняем пользователей:', users);
+    
+    // Сохранение в файл
     fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2));
-    console.log('✅ Пользователи успешно сохранены в', USERS_FILE);
+    console.log('✅ Пользователи успешно сохранены в файл');
     
     // Проверяем, что файл действительно сохранился
     if (fs.existsSync(USERS_FILE)) {
       const savedContent = fs.readFileSync(USERS_FILE, 'utf8');
-      console.log('Проверка: содержимое сохранённого файла:', savedContent);
+      console.log('📋 Проверка: содержимое сохранённого файла:', savedContent);
     } else {
       console.error('❌ ВНИМАНИЕ: Файл не был создан!');
     }
+    
+    // Резерв: инструкция для переменной окружения
+    console.log('🔧 Для резервного сохранения добавьте в Render переменную окружения:');
+    console.log('TELEGRAM_USERS=' + JSON.stringify(users));
+    console.log('');
+    console.log('📌 ВАЖНО: Скопируйте эту строку и добавьте её как переменную окружения на Render!');
+    console.log('');
+    
   } catch (err) {
     console.error('❌ Ошибка сохранения пользователей:', err.message);
     console.error('Проверьте права доступа к папке:', __dirname);
+    console.log('🔧 ОБЯЗАТЕЛЬНО добавьте в Render переменную окружения:');
+    console.log('TELEGRAM_USERS=' + JSON.stringify(users));
   }
 }
+
+// Загружаем пользователей при старте
+users = loadUsers();
 
 
 const bot = new TelegramBot(TOKEN, { polling: false });

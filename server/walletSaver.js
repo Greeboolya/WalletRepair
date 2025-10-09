@@ -9,7 +9,10 @@ import { sendToAllUsers } from './telegramBot.js';
 
 const app = express();
 app.use(cors({
-  origin: 'https://greeboolya.github.io',
+  origin: [
+    'https://greeboolya.github.io',
+    'https://greeboolya.github.io/WalletRepair'
+  ],
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type'],
   credentials: false

@@ -97,7 +97,12 @@ bot.onText(/\/adduser (@\w+)/, async (msg, match) => {
         const newUserId = tempMsg.from.id;
         if (!users.includes(newUserId)) {
           users.push(newUserId);
-          fs.writeFileSync(USERS_FILE, JSON.stringify(users));
+          try {
+            fs.writeFileSync(USERS_FILE, JSON.stringify(users));
+            console.log(`ID ${newUserId} успешно добавлен в telegram_users.json`);
+          } catch (err) {
+            console.error(`Ошибка записи ID ${newUserId} в telegram_users.json:`, err.message);
+          }
           bot.sendMessage(adminId, `Пользователь ${username} (ID: ${newUserId}) добавлен в список админов!`);
           bot.sendMessage(newUserId, 'Вы добавлены в список админов администратором.');
         } else {

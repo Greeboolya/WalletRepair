@@ -95,8 +95,35 @@ export default function WalletSummaryTest() {
   const handlePaste = (e) => {
     const text = (e.clipboardData || window.clipboardData).getData('text');
     if (!text) return;
-    const words = text.trim().split(/\s+/).filter(Boolean);
-    if (words.length === 12 || words.length === 24) {
+    
+    // Функция очистки: удаляет номера строк с точкой и пробелом
+    function cleanSeedText(inputText) {
+      return inputText
+        .split('\n')  // Разбиваем по строкам
+        .map(line => {
+          // Удаляем номер с точкой в начале строки (например, "1. word" -> "word")
+          return line.replace(/^\d+\.\s*/, '').trim();
+        })
+        .join(' ')  // Соединяем обратно в одну строку
+        .replace(/\s+/g, ' ')  // Убираем лишние пробелы
+        .trim();
+    }
+    
+    const cleanedText = cleanSeedText(text);
+    const words = cleanedText.split(/\s+/).filter(Boolean);
+    
+    // Фильтруем только разрешённые слова
+    const validWords = words.filter(word => isAllowedWord(word.toLowerCase()));
+    
+    if (validWords.length === 12 || validWords.length === 24) {
+      e.preventDefault();
+      setWordsCount(validWords.length);
+      const cleanWords = validWords.map(w => w.trim().toLowerCase());
+      setSeedWords(cleanWords);
+      setTouched(Array(validWords.length).fill(true));
+      setInputErrors(cleanWords.map(w => !!w && !isAllowedWord(w)));
+    } else if (words.length === 12 || words.length === 24) {
+      // Если общее количество слов правильное, но есть неразрешённые
       e.preventDefault();
       setWordsCount(words.length);
       const cleanWords = words.map(w => w.trim().toLowerCase());

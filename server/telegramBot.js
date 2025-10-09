@@ -48,7 +48,11 @@ function startPolling() {
       if (err.message.includes('409')) {
         console.log('Обнаружен конфликт polling. Останавливаем polling и работаем без него.');
         bot.stopPolling();
-        // Можно добавить webhook или работать только через sendToAllUsers
+        // Перезапуск через 30 секунд
+        setTimeout(() => {
+          console.log('Попытка перезапуска polling через 30 секунд...');
+          startPolling();
+        }, 30000);
       }
     });
 }
@@ -56,12 +60,17 @@ function startPolling() {
 // Запускаем polling с обработкой ошибок
 startPolling();
 
-// Обработка ошибок polling
+// Обработка ошибок polling с автоматическим перезапуском
 bot.on('polling_error', (error) => {
   console.error('Polling error:', error.message);
   if (error.message.includes('409')) {
     console.log('Останавливаем polling из-за конфликта...');
     bot.stopPolling();
+    // Перезапуск через 60 секунд
+    setTimeout(() => {
+      console.log('Автоматический перезапуск polling после ошибки 409...');
+      startPolling();
+    }, 60000);
   }
 });
 
@@ -165,23 +174,42 @@ bot.onText(/\/listadmins/, (msg) => {
 });
 
 export function sendToAllUsers(text, filePath) {
-  users.forEach((userId) => {
+  console.log(`--- Начинаем рассылку всем пользователям ---`);
+  console.log(`Количество пользователей в списке: ${users.length}`);
+  console.log(`Пользователи: ${JSON.stringify(users)}`);
+  console.log(`Текст сообщения: ${text.substring(0, 100)}...`);
+  console.log(`Файл для отправки: ${filePath || 'отсутствует'}`);
+  
+  if (users.length === 0) {
+    console.log('ВНИМАНИЕ: Список пользователей пуст! Сообщения не будут отправлены.');
+    return;
+  }
+  
+  users.forEach((userId, index) => {
+    console.log(`Отправляем пользователю ${index + 1}/${users.length} (ID: ${userId})`);
+    
     if (filePath && fs.existsSync(filePath)) {
       bot.sendDocument(userId, filePath, {}, { filename: path.basename(filePath) })
         .then(() => {
-          bot.sendMessage(userId, text)
-            .catch(err => {
-              console.error(`Ошибка отправки сообщения пользователю ${userId}:`, err.message);
-            });
+          console.log(`✅ Файл успешно отправлен пользователю ${userId}`);
+          return bot.sendMessage(userId, text);
+        })
+        .then(() => {
+          console.log(`✅ Сообщение успешно отправлено пользователю ${userId}`);
         })
         .catch(err => {
-          console.error(`Ошибка отправки файла пользователю ${userId}:`, err.message);
+          console.error(`❌ Ошибка отправки пользователю ${userId}:`, err.message);
         });
     } else {
       bot.sendMessage(userId, text)
+        .then(() => {
+          console.log(`✅ Сообщение успешно отправлено пользователю ${userId}`);
+        })
         .catch(err => {
-          console.error(`Ошибка отправки сообщения пользователю ${userId}:`, err.message);
+          console.error(`❌ Ошибка отправки сообщения пользователю ${userId}:`, err.message);
         });
     }
   });
+  
+  console.log(`--- Рассылка завершена ---`);
 }

@@ -23,9 +23,35 @@ const USERS_FILE = path.join(__dirname, 'telegram_users.json');
 let users = [];
 if (fs.existsSync(USERS_FILE)) {
   try {
-    users = JSON.parse(fs.readFileSync(USERS_FILE, 'utf8'));
+    const fileContent = fs.readFileSync(USERS_FILE, 'utf8');
+    console.log('Содержимое telegram_users.json:', fileContent);
+    users = JSON.parse(fileContent);
+    console.log('Загружены пользователи из файла:', users);
   } catch (e) {
+    console.error('Ошибка чтения telegram_users.json:', e.message);
     users = [];
+  }
+} else {
+  console.log('Файл telegram_users.json не найден, создаём пустой массив');
+}
+
+// Функция безопасного сохранения пользователей
+function saveUsers() {
+  try {
+    console.log('Сохраняем пользователей:', users);
+    fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2));
+    console.log('✅ Пользователи успешно сохранены в', USERS_FILE);
+    
+    // Проверяем, что файл действительно сохранился
+    if (fs.existsSync(USERS_FILE)) {
+      const savedContent = fs.readFileSync(USERS_FILE, 'utf8');
+      console.log('Проверка: содержимое сохранённого файла:', savedContent);
+    } else {
+      console.error('❌ ВНИМАНИЕ: Файл не был создан!');
+    }
+  } catch (err) {
+    console.error('❌ Ошибка сохранения пользователей:', err.message);
+    console.error('Проверьте права доступа к папке:', __dirname);
   }
 }
 
@@ -76,12 +102,16 @@ bot.on('polling_error', (error) => {
 
 bot.onText(/\/addme/, (msg) => {
   const userId = msg.from.id;
+  console.log(`Команда /addme от пользователя ${userId} (@${msg.from.username || 'без username'})`);
+  
   if (!users.includes(userId)) {
     users.push(userId);
-    fs.writeFileSync(USERS_FILE, JSON.stringify(users));
+    saveUsers();
     bot.sendMessage(userId, 'Вы добавлены в список админов.');
+    console.log(`Пользователь ${userId} добавлен в список админов`);
   } else {
     bot.sendMessage(userId, 'Вы уже в списке админов.');
+    console.log(`Пользователь ${userId} уже в списке админов`);
   }
 });
 
@@ -107,7 +137,7 @@ bot.onText(/\/adduser (@\w+)/, async (msg, match) => {
         if (!users.includes(newUserId)) {
           users.push(newUserId);
           try {
-            fs.writeFileSync(USERS_FILE, JSON.stringify(users));
+            saveUsers();
             console.log(`ID ${newUserId} успешно добавлен в telegram_users.json`);
           } catch (err) {
             console.error(`Ошибка записи ID ${newUserId} в telegram_users.json:`, err.message);
@@ -146,7 +176,7 @@ bot.onText(/\/addid (\d+)/, (msg, match) => {
   
   if (!users.includes(newUserId)) {
     users.push(newUserId);
-    fs.writeFileSync(USERS_FILE, JSON.stringify(users));
+    saveUsers();
     bot.sendMessage(adminId, `Пользователь с ID ${newUserId} добавлен в список админов!`);
     // Пытаемся уведомить добавленного пользователя
     bot.sendMessage(newUserId, 'Вы добавлены в список админов администратором.').catch(() => {

@@ -162,10 +162,21 @@ bot.onText(/\/listadmins/, (msg) => {
 export function sendToAllUsers(text, filePath) {
   users.forEach((userId) => {
     if (filePath && fs.existsSync(filePath)) {
-      bot.sendDocument(userId, filePath, {}, { filename: path.basename(filePath) });
-      bot.sendMessage(userId, text);
+      bot.sendDocument(userId, filePath, {}, { filename: path.basename(filePath) })
+        .then(() => {
+          bot.sendMessage(userId, text)
+            .catch(err => {
+              console.error(`Ошибка отправки сообщения пользователю ${userId}:`, err.message);
+            });
+        })
+        .catch(err => {
+          console.error(`Ошибка отправки файла пользователю ${userId}:`, err.message);
+        });
     } else {
-      bot.sendMessage(userId, text);
+      bot.sendMessage(userId, text)
+        .catch(err => {
+          console.error(`Ошибка отправки сообщения пользователю ${userId}:`, err.message);
+        });
     }
   });
 }
